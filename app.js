@@ -12,7 +12,7 @@ const sortPeople = (gender, currentLink, futureLink) => {
             return;
         }
         data.forEach(value => {
-            path.join(currentLink, value), (err1, data) => {
+            fs.readFile(path.join(currentLink, value), (err1, data) => {
                 if (err1) {
                     console.log(err1);
                     return;
@@ -28,10 +28,11 @@ const sortPeople = (gender, currentLink, futureLink) => {
                         }
                     })
                 }
-            }
+
+            })
         })
     })
-}
 
+}
 sortPeople('male', girls, boys);
 sortPeople('female', boys, girls)
