@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const boys = path.join(__dirname, 'users', 'boys');
-const girls = path.join(__dirname, 'users', 'girls')
+const girls = path.join(__dirname, 'users', 'girls');
 
 const sortPeople = (gender, currentLink, futureLink) => {
 
@@ -28,11 +28,11 @@ const sortPeople = (gender, currentLink, futureLink) => {
                         if (err3) {
                             console.log(err3);
                         }
-                    })
+                    });
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 }
 
 sortPeople('male', girls, boys);
