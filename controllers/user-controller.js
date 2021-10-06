@@ -4,6 +4,11 @@ const users = path.join(__dirname, '../', 'database', 'users-arr.json');
 
 module.exports = {
     getUsers: async (req, res) => {
+        const newUsers = await builder.readFile();
+        res.json(newUsers);
+    },
+
+    getUsersByID: async (req, res) => {
 
         const newUsers = await builder.readFile();
         const {user_id} = req.params;
@@ -21,9 +26,8 @@ module.exports = {
 
         const newUsers = await builder.readFile();
 
-        newUsers[newUsers.length] = {...req.body, id: newUsers.length + 1}
+        newUsers.push({...newUsers, id: users.length + 1});
 
-        const usersToString = JSON.stringify(newUsers);
         await builder.writeFile(newUsers);
 
         res.json(newUsers)
@@ -36,6 +40,7 @@ module.exports = {
 
         if (user_id) {
             const newUsers = userList.filter(user => user.id !== +user_id);
+
             await builder.writeFile(newUsers);
 
             res.json(newUsers);
