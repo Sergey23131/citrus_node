@@ -26,7 +26,7 @@ module.exports = {
 
         const newUsers = await builder.readFile();
 
-        newUsers.push({...newUsers, id: users.length + 1});
+        newUsers[newUsers.length] = {...req.body, id: newUsers[newUsers.length - 1].id + 1}
 
         await builder.writeFile(newUsers);
 
