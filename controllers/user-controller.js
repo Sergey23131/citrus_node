@@ -33,7 +33,7 @@ module.exports = {
 
             const user = JSON.parse(data.toString());
 
-            user[user.length + 1] = {...req.body, id: user.length + 1}
+            user[user.length] = {...req.body, id: user.length + 1}
             const usersToString = JSON.stringify(user);
 
             res.json(user)
