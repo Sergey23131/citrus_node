@@ -1,32 +1,7 @@
 [
-  {
-    "id": 1,
-    "age": 23,
-    "name": "Petro"
-  },
-  {
-    "id": 2,
-    "age": 23,
-    "name": "Vasyl"
-  },
-  {
-    "id": 3,
-    "age": 23,
-    "name": "Oleg"
-  },
-  {
-    "id": 4,
-    "age": 23,
-    "name": "Natalya"
-  },
-  {
-    "id": 5,
-    "age": 23,
-    "name": "Oksana"
-  },
-  {
-    "name": "Nazar",
-    "age": 23,
-    "id": 6
-  }
+  {"id": 1, "name": "Petro"},
+  {"id": 2, "name": "Vasyl"},
+  {"id": 3, "name": "Oleg"},
+  {"id": 4, "name": "Natalya"},
+  {"id": 5, "name": "Oksana"}
 ]
