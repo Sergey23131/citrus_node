@@ -1,49 +1,48 @@
-const path = require('path');
-const builder = require('../service/file.service');
-const users = path.join(__dirname, '../', 'database', 'users-arr.json');
+const User = require('../database/User')
 
 module.exports = {
     getUsers: async (req, res) => {
-        const newUsers = await builder.readFile();
-        res.json(newUsers);
+        try {
+            const allUsers = await User.find();
+
+            res.json(allUsers);
+        } catch (e) {
+            res.json(e);
+        }
+
+
     },
 
     getUsersByID: async (req, res) => {
+        try {
+            const {user_id} = req.params;
+            const oneUser = await User.findById(user_id);
 
-        const newUsers = await builder.readFile();
-        const {user_id} = req.params;
-
-
-        newUsers.forEach(value => {
-                if (Number(user_id) === value.id) {
-                    res.json(value);
-                }
-            }
-        );
+            res.json(oneUser);
+        } catch (e) {
+            res.json(e.message);
+        }
     },
 
     createUser: async (req, res) => {
+        try {
+            const newUser = await User.create(req.body);
 
-        const newUsers = await builder.readFile();
-
-        newUsers[newUsers.length] = {...req.body, id: newUsers[newUsers.length - 1].id + 1}
-
-        await builder.writeFile(newUsers);
-
-        res.json(newUsers)
+            res.json(newUser);
+        } catch (e) {
+            res.json(e.message);
+        }
     },
 
     deleteUser: async (req, res) => {
 
-        const userList = await builder.readFile();
-        const {user_id} = req.params;
+        try {
+            const {user_id} = req.params;
+            const removeUser = await User.findByIdAndDelete(user_id);
 
-        if (user_id) {
-            const newUsers = userList.filter(user => user.id !== +user_id);
-
-            await builder.writeFile(newUsers);
-
-            res.json(newUsers);
+            res.json(removeUser);
+        } catch (e) {
+            res.json(e.message);
         }
     }
 }
