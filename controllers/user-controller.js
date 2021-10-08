@@ -3,6 +3,7 @@ const builder = require('../service/file.service');
 module.exports = {
     getUsers: async (req, res) => {
         const newUsers = await builder.readFile();
+
         res.json(newUsers);
     },
 
