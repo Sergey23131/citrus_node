@@ -1,6 +1,4 @@
-const path = require('path');
 const builder = require('../service/file.service');
-const users = path.join(__dirname, '../', 'database', 'users-arr.json');
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -9,21 +7,14 @@ module.exports = {
     },
 
     getUsersByID: async (req, res) => {
-
         const newUsers = await builder.readFile();
         const {user_id} = req.params;
+        const user = newUsers.find(value => value.id === +user_id);
 
-
-        newUsers.forEach(value => {
-                if (Number(user_id) === value.id) {
-                    res.json(value);
-                }
-            }
-        );
+        res.json(user);
     },
 
     createUser: async (req, res) => {
-
         const newUsers = await builder.readFile();
 
         newUsers[newUsers.length] = {...req.body, id: newUsers[newUsers.length - 1].id + 1}
@@ -34,7 +25,6 @@ module.exports = {
     },
 
     deleteUser: async (req, res) => {
-
         const userList = await builder.readFile();
         const {user_id} = req.params;
 

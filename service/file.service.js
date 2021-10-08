@@ -13,12 +13,10 @@ async function readFile() {
 
 async function writeFile(info) {
     const writeFile_p = promisify(fs.writeFile);
-
     const fileInfo = JSON.stringify(info);
 
     await writeFile_p(users, fileInfo);
 }
-
 
 module.exports = {
     readFile,
