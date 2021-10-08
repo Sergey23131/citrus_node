@@ -35,7 +35,6 @@ module.exports = {
     },
 
     deleteUser: async (req, res) => {
-
         try {
             const {user_id} = req.params;
             const removeUser = await User.findByIdAndDelete(user_id);
