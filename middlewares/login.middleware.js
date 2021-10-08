@@ -7,9 +7,9 @@ module.exports = {
             const email = req.body.email;
             const password = req.body.password;
 
-            const loginData = await User.findOne({username, email, password});
+            const loginInfo = await User.findOne({username, email, password});
 
-            if (!loginData) {
+            if (!loginInfo) {
                 throw new Error('Incorrect login or password');
             }
 
