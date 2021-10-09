@@ -1,9 +1,8 @@
 module.exports = {
     logUser: (req, res) => {
         try {
-            const username = req.body.name;
 
-            res.json(`${username} molodec`);
+            res.json(`You passed authorization`);
         } catch (e) {
             res.json(e.message);
         }

@@ -3,11 +3,9 @@ const User = require('../database/User');
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {
         try {
-            const username = req.body.name;
-            const email = req.body.email;
-            const password = req.body.password;
+            const {name, email, password} = req.body;
 
-            const loginInfo = await User.findOne({username, email, password});
+            const loginInfo = await User.findOne({email, password});
 
             if (!loginInfo) {
                 throw new Error('Incorrect login or password');
