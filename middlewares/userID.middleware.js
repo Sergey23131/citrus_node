@@ -10,6 +10,8 @@ module.exports = {
                 throw new Error(`User with id: ${user_id} isn't exist`);
             }
 
+            req.user = oneUser;
+
             next();
         } catch (e) {
             res.json(e.message);

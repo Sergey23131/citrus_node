@@ -5,7 +5,7 @@ module.exports = {
         try {
             const {name, email, password} = req.body;
 
-            if (!name && !email && !password) {
+            if (!name || !email || !password) {
                 throw new Error('Name, email, password are required');
             }
 

@@ -10,13 +10,11 @@ module.exports = {
             res.json(e);
         }
 
-
     },
 
     getUsersByID: async (req, res) => {
         try {
-            const {user_id} = req.params;
-            const oneUser = await User.findById(user_id);
+            const {oneUser} = req.user;
 
             res.json(oneUser);
         } catch (e) {
