@@ -16,11 +16,7 @@ module.exports = {
 
     getUsersByID: async (req, res) => {
         try {
-            const {oneUser} = req.user;
-
-            /* const userNorm = userUtil.userNormalizator(oneUser);*/
-
-            res.json(oneUser);
+            res.json(req.user);
         } catch (e) {
             res.json(e.message);
         }
