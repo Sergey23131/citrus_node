@@ -12,6 +12,7 @@ const authRouter = require('./routes/login-router');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 app.use('/users', userRouter);
 app.use('/login', authRouter);
 
