@@ -8,9 +8,9 @@ module.exports = {
             const allUsers = await User.find().lean();
             let users = [];
 
-            allUsers.forEach(user => users = [...users, userUtil.userNormalizator(user)])
+            allUsers.forEach(user => users = [...users, userUtil.userNormalizator(user)]);
 
-            res.json(users)
+            res.json(users);
 
         } catch (e) {
             res.json(e);
@@ -35,6 +35,17 @@ module.exports = {
             const newUser = await User.create({...req.body, password: hashedPassword});
 
             res.json(newUser);
+        } catch (e) {
+            res.json(e.message);
+        }
+    },
+    updateUser: async (req, res) => {
+        try {
+            const {user_id} = req.params;
+            let user = await User.findByIdAndUpdate(user_id, req.user).lean();
+            user = userUtil.userNormalizator(user);
+
+            res.json(user);
         } catch (e) {
             res.json(e.message);
         }

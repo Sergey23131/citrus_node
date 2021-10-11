@@ -1,12 +1,13 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
+const passwordService = require('../services/password.service');
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {
         try {
             const {email, password} = req.body;
 
-            const loginInfo = await User.findOne({email, password}).lean();
+            const loginInfo = await User.findOne({email});
 
             if (!loginInfo) {
                 throw new Error('Incorrect login or password');

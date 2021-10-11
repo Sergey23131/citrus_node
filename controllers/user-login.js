@@ -5,7 +5,6 @@ module.exports = {
     logUser: async (req, res) => {
         try {
             const hashedPassword = await passwordService.hash(req.user.password);
-
             const comparePassword = await passwordService.hash(req.body.password, hashedPassword);
 
             if (comparePassword) {
