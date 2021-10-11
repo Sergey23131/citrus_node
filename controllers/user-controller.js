@@ -5,9 +5,13 @@ const userUtil = require('../util/user_util');
 module.exports = {
     getUsers: async (req, res) => {
         try {
-            const allUsers = await User.find();
+            const allUsers = await User.find().lean();
+            let users = [];
 
-            res.json(allUsers);
+            allUsers.forEach(user => users = [...users, userUtil.userNormalizator(user)])
+
+            res.json(users)
+
         } catch (e) {
             res.json(e);
         }
@@ -16,11 +20,9 @@ module.exports = {
 
     getUsersByID: async (req, res) => {
         try {
-            const {oneUser} = req.user;
+            const userNorm = userUtil.userNormalizator(req.user);
 
-            /* const userNorm = userUtil.userNormalizator(oneUser);*/
-
-            res.json(oneUser);
+            res.json(userNorm);
         } catch (e) {
             res.json(e.message);
         }

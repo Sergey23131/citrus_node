@@ -4,7 +4,7 @@ module.exports = {
     createIDMiddleware: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            const oneUser = await User.findById(user_id);
+            const oneUser = await User.findById(user_id).lean();
 
             if (!oneUser) {
                 throw new Error(`User with id: ${user_id} isn't exist`);
