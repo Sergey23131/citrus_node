@@ -1,16 +1,15 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
-const passwordService = require('../services/password.service');
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {
         try {
-            const {email, password} = req.body;
+            const {email} = req.body;
 
             const loginInfo = await User.findOne({email});
 
             if (!loginInfo) {
-                throw new Error('Incorrect login or password');
+                throw new Error('Wrong email or password1');
             }
 
             req.user = loginInfo;
@@ -20,12 +19,13 @@ module.exports = {
             res.json(e.message);
         }
     },
+
     isloginBodyValid: (req, res, next) => {
         try {
             const {error, value} = loginValidator.userLoginValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new Error('Wrong email or password2');
             }
 
             req.body = value;

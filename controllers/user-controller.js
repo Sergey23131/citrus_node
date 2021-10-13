@@ -56,7 +56,7 @@ module.exports = {
             const {user_id} = req.params;
             const removeUser = await User.findByIdAndDelete(user_id);
 
-            res.json(removeUser);
+            res.json('Your account was removed');
         } catch (e) {
             res.json(e.message);
         }

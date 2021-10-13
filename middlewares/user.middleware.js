@@ -1,19 +1,6 @@
 const userValidator = require('../validators/user.validator');
 
-module.exports =  {
-    createUserMiddleware: async (req, res, next) => {
-        try {
-            const {name, email, password} = req.body;
-
-            if (!name || !email || !password) {
-                throw new Error('Name, email, password are required');
-            }
-
-            next();
-        } catch (e) {
-            res.json(e.message);
-        }
-    },
+module.exports = {
     isUserBodyValid: (req, res, next) => {
         try {
             const {error, value} = userValidator.createUserValidator.validate(req.body);
@@ -28,6 +15,5 @@ module.exports =  {
         } catch (e) {
             res.json(e.message);
         }
-    },
-
+    }
 }

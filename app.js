@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/users', userRouter);
-app.use('/login', authRouter);
+app.use('/auth', authRouter);
 
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
