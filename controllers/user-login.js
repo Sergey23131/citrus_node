@@ -7,11 +7,9 @@ module.exports = {
             const {password} = req.body;
             const hashPassword = req.user;
 
-            const comparePassword = await passwordService.compare(password, hashPassword.password);
+            await passwordService.compare(password, hashPassword.password);
 
-            if (comparePassword) {
-                res.json('You is our user!')
-            }
+            res.json(req.user)
 
         } catch (e) {
             res.json(e.message);
