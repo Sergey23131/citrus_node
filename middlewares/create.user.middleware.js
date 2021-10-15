@@ -1,3 +1,6 @@
+import {ErrorHandler} from "../errors";
+import {EMAIL_EXIST} from "../errors/custom_errors";
+
 const User = require('../database/User');
 
 module.exports = {
@@ -8,12 +11,12 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (loginInfo) {
-                throw new Error('This email was used before by someone');
+                throw new ErrorHandler(EMAIL_EXIST.message, EMAIL_EXIST.code);
             }
 
             next();
         } catch (e) {
-           next(e);
+            next(e);
         }
     }
 }
