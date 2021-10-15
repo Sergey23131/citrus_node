@@ -13,7 +13,7 @@ module.exports = {
 
             next();
         } catch (e) {
-            res.json(e.message);
+           next(e);
         }
     }
 }

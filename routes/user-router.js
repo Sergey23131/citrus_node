@@ -1,14 +1,17 @@
+import {ADMIN, USER} from "../configs/user_roles";
+
 const router = require('express').Router();
 
-const userMiddleware = require('../middlewares/user.middleware');
-const idMiddleware = require('../middlewares/userID.middleware')
-const updateMiddleware = require('../middlewares/user.update.middleware')
-const createMiddleware = require('../middlewares/create.user.middleware')
+const {isUserBodyValid, checkUserRole} = require('../middlewares/user.middleware');
+const idMiddleware = require('../middlewares/userID.middleware');
+const updateMiddleware = require('../middlewares/user.update.middleware');
+const createMiddleware = require('../middlewares/create.user.middleware');
 
-const userController = require('../controllers/user-controller');
+const {userController} = require('../controllers/index');
 
 router.post('/',
-    userMiddleware.isUserBodyValid,
+    isUserBodyValid,
+    checkUserRole([ADMIN, USER]),
     createMiddleware.createUserMiddleware,
     userController.createUser);
 

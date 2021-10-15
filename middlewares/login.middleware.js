@@ -1,3 +1,6 @@
+import {ErrorHandler} from "../errors";
+import {NOT_VALID_BODY} from "../errors/custom_errors";
+
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
 
@@ -9,14 +12,14 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (!loginInfo) {
-                throw new Error('Wrong email or password1');
+                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
             }
 
             req.user = loginInfo;
 
             next();
         } catch (e) {
-            res.json(e.message);
+           next(e);
         }
     },
 
@@ -25,14 +28,14 @@ module.exports = {
             const {error, value} = loginValidator.userLoginValidator.validate(req.body);
 
             if (error) {
-                throw new Error('Wrong email or password2');
+                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
             }
 
             req.body = value;
 
             next();
         } catch (e) {
-            res.json(e.message);
+           next(e);
         }
     },
 }

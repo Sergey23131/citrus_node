@@ -1,3 +1,6 @@
+import {ErrorHandler} from "../errors";
+import {NOT_VALID_BODY} from "../errors/custom_errors";
+
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -8,7 +11,7 @@ module.exports = {
         const isPasswordMatched = await bcrypt.compare(password, hashPassword);
 
         if (!isPasswordMatched) {
-            throw new Error('Wrong email or password3');
+            throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
         }
     }
 }

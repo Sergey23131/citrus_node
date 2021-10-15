@@ -1,3 +1,6 @@
+import {ErrorHandler} from "../errors";
+import {ACCESS} from "../errors/custom_errors";
+
 const userValidator = require('../validators/user.validator');
 
 module.exports = {
@@ -13,7 +16,20 @@ module.exports = {
 
             next();
         } catch (e) {
-            res.json(e.message);
+           next(e);
+        }
+    },
+    checkUserRole: (roleArr = []) => (req, res, next) => {
+        try {
+            const {role} = req.user;
+
+            if (!roleArr.includes(role)) {
+                throw new ErrorHandler(ACCESS.message, ACCESS.code);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
         }
     }
 }
