@@ -17,5 +17,9 @@ module.exports = {
     ACCESS: {
         message: 'Access denied',
         code: 404
-    }
+    },
+    NOT_VALID_TOKEN: {
+        message: 'Invalid token',
+        code: 401
+    },
 };

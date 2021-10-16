@@ -35,6 +35,7 @@ module.exports = {
             next(e);
         }
     },
+
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
@@ -52,7 +53,7 @@ module.exports = {
             const {user_id} = req.params;
             const removeUser = await User.findByIdAndDelete(user_id).select('-password');
 
-            res.json(removeUser);
+            res.json("removeUser");
         } catch (e) {
             next(e);
         }

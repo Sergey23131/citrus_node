@@ -1,5 +1,7 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
+const {jwtService} = require("../services");
+const {AUTHORIZATION} = require("../configs/constants");
 
 const {NOT_VALID_BODY} = require("../errors/custom_errors");
 const {ErrorHandler} = require("../errors/");
@@ -19,7 +21,7 @@ module.exports = {
 
             next();
         } catch (e) {
-           next(e);
+            next(e);
         }
     },
 
@@ -35,7 +37,19 @@ module.exports = {
 
             next();
         } catch (e) {
-           next(e);
+            next(e);
+        }
+    },
+
+    checkAccessToken: async (req, res, next) => {
+        try {
+            const token = req.get(AUTHORIZATION);
+
+            await jwtService.verifyToken(token);
+
+            next();
+        } catch (e) {
+            next(e);
         }
     },
 }
