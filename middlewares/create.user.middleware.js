@@ -1,7 +1,7 @@
-import {ErrorHandler} from "../errors";
-import {EMAIL_EXIST} from "../errors/custom_errors";
-
 const User = require('../database/User');
+
+const {EMAIL_EXIST} = require("../errors/custom_errors");
+const {ErrorHandler} = require("../errors");
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {

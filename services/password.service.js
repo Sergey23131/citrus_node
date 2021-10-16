@@ -1,7 +1,7 @@
-import {ErrorHandler} from "../errors";
-import {NOT_VALID_BODY} from "../errors/custom_errors";
-
 const bcrypt = require('bcrypt');
+
+const {NOT_VALID_BODY} = require("../errors/custom_errors");
+const {ErrorHandler} = require("../errors");
 
 module.exports = {
     hash: (password) => {

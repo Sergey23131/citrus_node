@@ -1,7 +1,9 @@
-import {ErrorHandler} from "../errors";
-import {NOT_FOUND_BY_ID} from "../errors/custom_errors";
+
 
 const User = require('../database/User');
+
+const {NOT_FOUND_BY_ID} = require("../errors/custom_errors");
+const {ErrorHandler} = require("../errors");
 
 module.exports = {
     createIDMiddleware: async (req, res, next) => {

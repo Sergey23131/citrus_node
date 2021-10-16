@@ -1,8 +1,8 @@
-import {ErrorHandler} from "../errors";
-import {NOT_VALID_BODY} from "../errors/custom_errors";
-
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
+
+const {NOT_VALID_BODY} = require("../errors/custom_errors");
+const {ErrorHandler} = require("../errors/");
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {

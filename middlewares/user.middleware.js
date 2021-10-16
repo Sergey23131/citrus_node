@@ -1,7 +1,7 @@
-import {ErrorHandler} from "../errors";
-import {ACCESS} from "../errors/custom_errors";
-
 const userValidator = require('../validators/user.validator');
+
+const {ACCESS} = require("../errors/custom_errors");
+const {ErrorHandler} = require("../errors");
 
 module.exports = {
     isUserBodyValid: (req, res, next) => {
@@ -16,7 +16,7 @@ module.exports = {
 
             next();
         } catch (e) {
-           next(e);
+            next(e);
         }
     },
     checkUserRole: (roleArr = []) => (req, res, next) => {

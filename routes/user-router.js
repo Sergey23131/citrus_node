@@ -1,11 +1,11 @@
-import {ADMIN, USER} from "../configs/user_roles";
-
 const router = require('express').Router();
 
 const {isUserBodyValid, checkUserRole} = require('../middlewares/user.middleware');
 const idMiddleware = require('../middlewares/userID.middleware');
 const updateMiddleware = require('../middlewares/user.update.middleware');
 const createMiddleware = require('../middlewares/create.user.middleware');
+
+const {ADMIN,USER} = require("../configs/user_roles");
 
 const {userController} = require('../controllers/index');
 
