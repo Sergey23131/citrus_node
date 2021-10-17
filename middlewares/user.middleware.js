@@ -21,7 +21,7 @@ module.exports = {
     },
     checkUserRole: (roleArr = []) => (req, res, next) => {
         try {
-            const {role} = req.user;
+            const {role} = req.body;
 
             if (!roleArr.includes(role)) {
                 throw new ErrorHandler(ACCESS.message, ACCESS.code);

@@ -1,5 +1,6 @@
 const {passwordService, jwtService} = require("../services");
 const O_Auth = require('../database/O_Auth');
+const User = require('../database/User');
 
 module.exports = {
     logUser: async (req, res, next) => {
@@ -26,10 +27,51 @@ module.exports = {
         }
     },
 
+    logOut: async (req, res, next) => {
+        try {
+
+            await User.findByIdAndDelete(req.user.id).select('-password');
+            await O_Auth.remove(req.token)
+
+
+            res.json('logOut');
+        } catch (e) {
+            next(e);
+        }
+
+    },
+
+    refreshToken: async (req, res, next) => {
+        try {
+            const {password} = req.body;
+            const hashPassword = req.user;
+
+            const tokenPair = jwtService.generateTokenPair();
+
+            await passwordService.compare(password, hashPassword.password);
+
+            await O_Auth.create({
+                ...tokenPair,
+                user_id: req.user._id
+            })
+
+            res.json({
+                user: req.user,
+                ...tokenPair
+            })
+
+        } catch (e) {
+            next(e);
+        }
+    },
+
     deleteAccount: async (req, res, next) => {
         try {
 
-            res.json('Your account removed')
+            const removeAccount = await User.findByIdAndDelete(req.user.id).select('-password');
+            await O_Auth.remove(req.token)
+
+            res.json(removeAccount);
         } catch (e) {
             next(e);
         }

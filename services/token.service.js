@@ -17,9 +17,9 @@ module.exports = {
         }
     },
 
-    verifyToken: async (token, tokenType = tokenType.ACCESS) => {
+    verifyToken: async (token, tokenTypes = tokenType.ACCESS) => {
         try {
-            const secret = tokenType === tokenType.ACCESS ? 'xxx' : 'zzz';
+            const secret = tokenTypes === tokenType.ACCESS ? JWT_ACCESS_SECRET : JWT_REFRESH_SECRET;
 
             await jwt.verify(token, secret);
         } catch (e) {
