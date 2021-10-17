@@ -1,8 +1,7 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
 
-const {NOT_VALID_BODY} = require("../errors/custom_errors");
-const {ErrorHandler} = require("../errors/");
+const {ErrorHandler,errors_massage,errors_code} = require("../errors");
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {
@@ -12,7 +11,7 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (!loginInfo) {
-                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY.message, errors_code.NOT_VALID.code);
             }
 
             req.user = loginInfo;
@@ -28,7 +27,7 @@ module.exports = {
             const {error, value} = loginValidator.userLoginValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID_BODY.code);
+                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID.code);
             }
 
             req.body = value;

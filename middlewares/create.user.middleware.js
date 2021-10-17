@@ -1,7 +1,6 @@
 const User = require('../database/User');
 
-const {EMAIL_EXIST} = require("../errors/custom_errors");
-const {ErrorHandler} = require("../errors");
+const {ErrorHandler,errors_massage,errors_code} = require("../errors");
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
@@ -11,7 +10,7 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (loginInfo) {
-                throw new ErrorHandler(EMAIL_EXIST.message, EMAIL_EXIST.code);
+                throw new ErrorHandler(errors_massage.EMAIL_EXIST.message, errors_code.EXIST.code);
             }
 
             next();

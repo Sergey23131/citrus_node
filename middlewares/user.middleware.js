@@ -1,7 +1,6 @@
 const userValidator = require('../validators/user.validator');
 
-const {ACCESS} = require("../errors/custom_errors");
-const {ErrorHandler} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 
 module.exports = {
     isUserBodyValid: (req, res, next) => {
@@ -24,7 +23,7 @@ module.exports = {
             const {role} = req.user;
 
             if (!roleArr.includes(role)) {
-                throw new ErrorHandler(ACCESS.message, ACCESS.code);
+                throw new ErrorHandler(errors_massage.ACCESS.message, errors_code.ACCESS.code);
             }
 
             next();

@@ -1,9 +1,7 @@
-
-
 const User = require('../database/User');
 
-const {NOT_FOUND_BY_ID} = require("../errors/custom_errors");
-const {ErrorHandler} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+
 
 module.exports = {
     createIDMiddleware: async (req, res, next) => {
@@ -12,14 +10,15 @@ module.exports = {
             const oneUser = await User.findById(user_id).select('-password');
 
             if (!oneUser) {
-                throw new ErrorHandler(NOT_FOUND_BY_ID.message, NOT_FOUND_BY_ID.code);;
+                throw new ErrorHandler(errors_massage.NOT_FOUND_BY_ID.message, errors_code.NOT_FOUND.code);
+                ;
             }
 
             req.user = oneUser;
 
             next();
         } catch (e) {
-           next(e);
+            next(e);
         }
     }
 }
