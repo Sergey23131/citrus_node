@@ -5,9 +5,10 @@ const {AUTHORIZATION} = require("../configs/constants");
 const O_Auth = require('../database/O_Auth');
 const tokenType = require('../configs/token.type.enum');
 
+const {ACCESS} = require("../errors/custom_errors");
 const {NOT_VALID_BODY} = require("../errors/custom_errors");
 const {ErrorHandler} = require("../errors/");
-const {ACCESS} = require("../configs/token.type.enum");
+
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {

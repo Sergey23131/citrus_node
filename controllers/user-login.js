@@ -31,7 +31,7 @@ module.exports = {
         try {
 
             await User.findByIdAndDelete(req.user.id).select('-password');
-            await O_Auth.remove(req.token)
+            await O_Auth.deleteOne(req.token)
 
 
             res.json('logOut');
@@ -43,12 +43,7 @@ module.exports = {
 
     refreshToken: async (req, res, next) => {
         try {
-            const {password} = req.body;
-            const hashPassword = req.user;
-
             const tokenPair = jwtService.generateTokenPair();
-
-            await passwordService.compare(password, hashPassword.password);
 
             await O_Auth.create({
                 ...tokenPair,
