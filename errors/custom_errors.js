@@ -1,7 +1,7 @@
 module.exports = {
     EMAIL_EXIST: {
         message: 'Email already exists',
-        code: 400
+        code: 409
     },
 
     NOT_VALID_BODY: {

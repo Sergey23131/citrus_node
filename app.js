@@ -8,7 +8,7 @@ const {MONGO_CONNECT_URL, PORT} = require('./configs/config')
 
 mongoose.connect(MONGO_CONNECT_URL);
 
-const {userRouter, authRouter} = require('./routes/index');
+const {userRouter, authRouter} = require('./routes');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
