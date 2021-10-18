@@ -1,4 +1,5 @@
 const userValidator = require('../validators/user.update.validator');
+const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 
 module.exports={
     updateUserMiddleware: (req, res, next) => {
@@ -6,7 +7,7 @@ module.exports={
             const {error, value} = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
 
             req.user = value;

@@ -1,6 +1,7 @@
 const User = require('../database/User');
 const passwordService = require('../services/password.service');
 const userUtil = require('../util/user_util');
+const {errors_code, errors_massage} = require("../errors");
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -30,7 +31,7 @@ module.exports = {
 
             const newUser = await User.create({...req.body, password: hashedPassword});
 
-            res.json(`You are our new user!`);
+            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {
             next(e);
         }
@@ -38,10 +39,9 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            let user = await User.findByIdAndUpdate(user_id, req.user).lean();
-            user = userUtil.userNormalizator(user);
+            let user = await User.findByIdAndUpdate(user_id, req.body).lean();
 
-            res.json(user);
+            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {
             next(e);
         }

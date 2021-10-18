@@ -11,7 +11,7 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (!loginInfo) {
-                throw new ErrorHandler(errors_massage.NOT_VALID_BODY.message, errors_code.NOT_VALID.code);
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
 
             req.user = loginInfo;
@@ -27,7 +27,7 @@ module.exports = {
             const {error, value} = loginValidator.userLoginValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(NOT_VALID_BODY.message, NOT_VALID.code);
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
             }
 
             req.body = value;
