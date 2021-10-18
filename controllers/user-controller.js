@@ -1,12 +1,13 @@
 const User = require('../database/User');
-const passwordService = require('../services/password.service');
-const userUtil = require('../util/user_util');
+const {passwordService, jwtService} = require("../services");
+
+const O_Auth = require('../database/O_Auth');
 const {errors_code, errors_massage} = require("../errors");
 
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const allUsers = await User.find().select('-password')
+            const allUsers = await User.find().select('-password');
 
             res.json(allUsers);
         } catch (e) {
@@ -38,23 +39,24 @@ module.exports = {
 
     updateUser: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
-            await User.findByIdAndUpdate(user_id, req.body);
 
-            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
+            const tokenPair = jwtService.generateTokenPair();
+
+            await O_Auth.create({
+                ...tokenPair,
+                user_id: req.user._id
+            })
+
+            const oneUser = await User.findById(req.user.id).select('-password');
+
+            res.json({
+                user: oneUser,
+                ...tokenPair
+            })
+
         } catch (e) {
             next(e);
         }
     },
 
-    deleteUser: async (req, res, next) => {
-        try {
-            const {user_id} = req.params;
-            await User.findByIdAndDelete(user_id);
-
-            res.status(errors_code.REMOVE).json(errors_massage.REMOVE_USER);
-        } catch (e) {
-            next(e);
-        }
-    }
 }

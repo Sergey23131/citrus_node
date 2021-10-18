@@ -17,8 +17,10 @@ module.exports = {
                 user_id: req.user._id
             })
 
+            const oneUser = await User.findById(req.user.id).select('-password');
+
             res.json({
-                user: req.user,
+                user: oneUser,
                 ...tokenPair
             })
 

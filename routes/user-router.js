@@ -3,6 +3,7 @@ const router = require('express').Router();
 const {isUserBodyValid, checkUserRole} = require('../middlewares/user.middleware');
 const idMiddleware = require('../middlewares/userID.middleware');
 const createMiddleware = require('../middlewares/create.user.middleware');
+const loginMiddleware = require('../middlewares/login.middleware');
 
 const {ADMIN, USER} = require("../configs/user_roles");
 
@@ -17,7 +18,6 @@ router.post('/',
 router.get('/', userController.getUsers);
 
 router.get('/:user_id', idMiddleware.createIDMiddleware, userController.getUsersByID);
-router.delete('/:user_id', idMiddleware.createIDMiddleware, userController.deleteUser);
-router.put('/:user_id', isUserBodyValid, idMiddleware.createIDMiddleware, userController.updateUser);
+router.put('/:user_id', isUserBodyValid, idMiddleware.createIDMiddleware, loginMiddleware.checkAccessToken, userController.updateUser);
 
 module.exports = router;
