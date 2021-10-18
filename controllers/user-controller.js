@@ -52,7 +52,7 @@ module.exports = {
             const {user_id} = req.params;
             const removeUser = await User.findByIdAndDelete(user_id).select('-password');
 
-            res.json(removeUser);
+            res.status(errors_code.REMOVE).json(errors_massage.REMOVE_USER);
         } catch (e) {
             next(e);
         }
