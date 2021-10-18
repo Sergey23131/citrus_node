@@ -9,7 +9,6 @@ module.exports = {
             const allUsers = await User.find().select('-password')
 
             res.json(allUsers);
-
         } catch (e) {
             next(e);
         }
@@ -36,10 +35,11 @@ module.exports = {
             next(e);
         }
     },
+
     updateUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            let user = await User.findByIdAndUpdate(user_id, req.body).lean();
+            await User.findByIdAndUpdate(user_id, req.body);
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {
@@ -50,7 +50,7 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            const removeUser = await User.findByIdAndDelete(user_id).select('-password');
+            await User.findByIdAndDelete(user_id);
 
             res.status(errors_code.REMOVE).json(errors_massage.REMOVE_USER);
         } catch (e) {
