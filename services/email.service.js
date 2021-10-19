@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const EmailTemplates = require('emailTemplates')
 
 const {NO_REPLY_EMAIL_PASSWORD, NO_REPLY_EMAIL} = require('../configs/config');
 
