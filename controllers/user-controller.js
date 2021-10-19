@@ -1,5 +1,5 @@
 const User = require('../database/User');
-const {passwordService, jwtService} = require("../services");
+const {passwordService, jwtService, emailService} = require("../services");
 
 const O_Auth = require('../database/O_Auth');
 const {errors_code, errors_massage} = require("../errors");
@@ -29,7 +29,9 @@ module.exports = {
         try {
             const hashedPassword = await passwordService.hash(req.body.password);
 
-            const newUser = await User.create({...req.body, password: hashedPassword});
+            await emailService.sendMail(req.body.email);
+
+            await User.create({...req.body, password: hashedPassword});
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {
