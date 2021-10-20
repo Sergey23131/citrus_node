@@ -2,8 +2,8 @@ const User = require('../database/User');
 const {passwordService, jwtService, emailService} = require("../services");
 
 const O_Auth = require('../database/O_Auth');
-const {WELCOME, UPDATE} = require("../configs/email.actions");
-const {errors_code, errors_massage} = require("../errors");
+const {WELCOME, UPDATE} = require('../configs/email.actions');
+const {errors_code, errors_massage} = require('../errors');
 
 module.exports = {
     getUsers: async (req, res, next) => {
