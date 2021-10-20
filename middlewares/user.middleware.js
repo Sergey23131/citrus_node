@@ -7,7 +7,7 @@ const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 module.exports = {
     isUserBodyValid: (validation) => (req, res, next) => {
         try {
-            console.log(validation)
+
             const {error, value} = validation.validate(req.body);
 
             if (error) {
