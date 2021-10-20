@@ -5,4 +5,5 @@ module.exports = {
     NOT_VALID: 400,
     NOT_FOUND: 404,
     ACCESS: 404,
+    ACTION:404
 }

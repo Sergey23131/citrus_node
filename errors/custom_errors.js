@@ -6,4 +6,5 @@ module.exports = {
     NOT_VALID_TOKEN: 'Not valid token',
     REMOVE_USER: 'User was removed',
     ACCESS: 'Access denied',
+    INVALID_ACTION:'Invalid action'
 };

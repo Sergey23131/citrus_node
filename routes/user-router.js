@@ -10,6 +10,7 @@ const {ADMIN, USER} = require("../configs/user_roles");
 const {userController} = require('../controllers/index');
 
 router.post('/',
+    checkUserRole([USER, ADMIN]),
     isUserBodyValid,
     createMiddleware.createUserMiddleware,
     userController.createUser);
