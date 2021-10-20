@@ -4,6 +4,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "email": "^0.2.6",
+    "email-templates": "^8.0.8",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",

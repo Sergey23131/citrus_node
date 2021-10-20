@@ -11,7 +11,7 @@ module.exports = {
             const loginInfo = await User.findOne({email});
 
             if (loginInfo) {
-                throw new ErrorHandler(errors_massage.EMAIL_EXIST.message, errors_code.EXIST.code);
+                throw new ErrorHandler(errors_massage.EMAIL_EXIST, errors_code.EXIST);
             }
 
             next();
