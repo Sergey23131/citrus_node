@@ -1,6 +1,8 @@
-const {passwordService, jwtService} = require("../services");
+const {passwordService, jwtService, emailService} = require("../services");
 const O_Auth = require('../database/O_Auth');
 const User = require('../database/User');
+const {UPDATE, LOGOUT, DELETE} = require("../configs/email.actions");
+const {errors_code, errors_massage} = require("../errors");
 
 module.exports = {
     logUser: async (req, res, next) => {
@@ -19,6 +21,8 @@ module.exports = {
 
             const oneUser = await User.findById(req.user.id).select('-password');
 
+            await emailService.sendMail(oneUser.email, UPDATE, {userName: oneUser.name});
+
             res.json({
                 user: oneUser,
                 ...tokenPair
@@ -31,7 +35,11 @@ module.exports = {
 
     logOut: async (req, res, next) => {
         try {
-            await O_Auth.deleteOne(req.token)
+            const user = req.user;
+
+            await O_Auth.findOneAndDelete(req.token)
+
+            await emailService.sendMail(user.email, LOGOUT, {userName: user.name});
 
             res.json('logOut');
         } catch (e) {
@@ -61,10 +69,14 @@ module.exports = {
 
     deleteAccount: async (req, res, next) => {
         try {
-            const removeAccount = await User.findByIdAndDelete(req.user.id).select('-password');
-            await O_Auth.remove(req.token)
+            const user = req.user;
 
-            res.json(removeAccount);
+            await User.findByIdAndDelete(req.user.id).select('-password');
+            await O_Auth.findOneAndDelete(req.token)
+
+            await emailService.sendMail(user.email, DELETE, {userName: user.name});
+
+            res.status(errors_code.REMOVE).json(errors_massage.REMOVE_USER);
         } catch (e) {
             next(e);
         }

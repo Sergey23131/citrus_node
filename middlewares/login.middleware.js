@@ -62,6 +62,7 @@ module.exports = {
             }
 
             req.user = tokenResponse.user_id
+            req.token = token;
 
             next();
         } catch (e) {
@@ -87,7 +88,7 @@ module.exports = {
                 throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
             }
 
-            await O_Auth.remove({refresh_token: token});
+            await O_Auth.findOneAndDelete({refresh_token: token});
 
             req.token = token;
             req.user = tokenResponse.user_id;
