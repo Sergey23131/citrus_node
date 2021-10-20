@@ -44,6 +44,11 @@ module.exports = {
 
     updateUser: async (req, res, next) => {
         try {
+            const {user_id} = req.params;
+
+            console.log(user_id)
+
+            await User.findByIdAndUpdate(user_id, req.body);
 
             const tokenPair = jwtService.generateTokenPair();
 

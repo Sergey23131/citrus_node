@@ -5,36 +5,23 @@ const User = require('../database/User');
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 
 module.exports = {
-    isUserBodyValid: async (req, res, next) => {
+    isUserBodyValid: (validation) => (req, res, next) => {
         try {
-            if (req.body.name && req.body.email && req.body.password) {
-                const {error, value} = userValidator.createUserValidator.validate(req.body);
+            console.log(validation)
+            const {error, value} = validation.validate(req.body);
 
-                if (error) {
-                    throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
-                }
-
-                req.body = value;
+            if (error) {
+                throw new ErrorHandler(errors_code.NOT_VALID, errors_massage.NOT_VALID_BODY);
             }
 
-            if (req.body.name && !req.body.email) {
-                const {error, value} = userValidator_UP.updateUserValidator.validate(req.body);
-
-                if (error) {
-                    throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
-                }
-
-                const {user_id} = req.params;
-
-                await User.findByIdAndUpdate(user_id, req.body);
-
-            }
+            req.body = value;
 
             next();
         } catch (e) {
             next(e);
         }
     },
+
     checkUserRole: (roleArr = []) => (req, res, next) => {
         try {
             const {role} = req.body;
