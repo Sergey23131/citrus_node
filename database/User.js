@@ -1,5 +1,6 @@
 const userRoles = require('../configs/user_roles');
 const {Schema, model} = require('mongoose');
+const {passwordService} = require('../services');
 
 const userSchema = new Schema({
     name: {
@@ -23,6 +24,20 @@ const userSchema = new Schema({
         required: true,
         trim: true
     }
-}, {timestamps: true});
+}, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}});
 
-module.exports = model('user', userSchema)
+userSchema.statics = {
+    async createHashPassword(userObject) {
+        const hashedPassword = await passwordService.hash(userObject.password);
+
+        return this.create({...userObject, password: hashedPassword});
+    },
+
+    async updateHashPassword(user, password) {
+        const hashedPassword = await passwordService.hash(password);
+
+        return this.findByIdAndUpdate({_id: user._id}, {password: hashedPassword}, {new: true});
+    }
+}
+
+module.exports = model('user', userSchema);

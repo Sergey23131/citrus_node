@@ -81,8 +81,7 @@ module.exports = {
             await jwtService.verifyToken(token, tokenType.REFRESH);
 
             const tokenResponse = await O_Auth
-                .findOne({refresh_token: token})
-                .populate('user_id');
+                .findOne({refresh_token: token});
 
             if (!tokenResponse) {
                 throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
