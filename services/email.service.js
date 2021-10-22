@@ -25,6 +25,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = async (userMail, emailAction, context = {}) => {
 
+
     const templateInfo = allTemplates[emailAction];
 
     if (!templateInfo) {

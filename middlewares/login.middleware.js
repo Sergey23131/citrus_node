@@ -5,6 +5,9 @@ const {jwtService} = require("../services");
 const {AUTHORIZATION} = require("../configs/constants");
 const tokenType = require('../configs/token.type.enum');
 const O_Auth = require('../database/O_Auth');
+const {FORGOT_PASSWORD} = require("../configs/action-token-type");
+
+const ActionToken = require('../database/ActionToken');
 
 const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 
@@ -38,6 +41,32 @@ module.exports = {
             req.body = value;
 
             next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    sendMailForgotPassword: async (req, res, next) => {
+        try {
+            const {email} = req.body;
+
+            const user = await User.findOne({email});
+
+            if (!user) {
+                throw ErrorHandler(errors_massage.FORGOT_PASSWORD, errors_code.NOT_FOUND);
+            }
+
+            const actionToken = jwtService.generateActionToken(FORGOT_PASSWORD);
+
+            await ActionToken.create({
+                token: actionToken,
+                token_type: FORGOT_PASSWORD,
+                user_id: user._id
+            })
+
+            req.token = actionToken;
+
+            next()
         } catch (e) {
             next(e);
         }

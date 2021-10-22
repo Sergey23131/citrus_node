@@ -32,7 +32,7 @@ module.exports = {
 
             await User.createHashPassword(email);
 
-            // await emailService.sendMail(email, WELCOME, {userName: req.body.name});
+            await emailService.sendMail(email, WELCOME, {userName: req.body.name});
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {

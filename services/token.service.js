@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 
-const {NOT_VALID_TOKEN} = require("../errors/custom_errors");
-const {ErrorHandler} = require("../errors");
-
-const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} = require('../configs/config')
+const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_FORGOT_PASSWORD} = require('../configs/config')
 const tokenType = require('../configs/token.type.enum');
+const {ACCESS} = require("../configs/token.type.enum");
+const {REFRESH} = require("../configs/token.type.enum");
+const {FORGOT_PASSWORD} = require("../configs/action-token-type");
+const {ErrorHandler, errors_massage, errors_code} = require("../errors");
 
 module.exports = {
     generateTokenPair: () => {
@@ -17,13 +18,43 @@ module.exports = {
         }
     },
 
-    verifyToken: async (token, tokenTypes = tokenType.ACCESS) => {
+    verifyToken: async (token, tokenTypes = ACCESS) => {
         try {
-            const secret = tokenTypes === tokenType.ACCESS ? JWT_ACCESS_SECRET : JWT_REFRESH_SECRET;
+            let secret;
+
+            switch (tokenTypes) {
+                case ACCESS:
+                    secret = JWT_ACCESS_SECRET;
+                    break;
+                case REFRESH:
+                    secret = JWT_REFRESH_SECRET;
+                    break;
+                case FORGOT_PASSWORD:
+                    secret = JWT_FORGOT_PASSWORD;
+                    break;
+                default:
+                    throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
+            }
 
             await jwt.verify(token, secret);
         } catch (e) {
-            throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code)
+            throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
         }
+    },
+
+    generateActionToken: (actionTokenType) => {
+
+        let secretWord;
+
+        switch (actionTokenType) {
+            case FORGOT_PASSWORD:
+                secretWord = 'Jois';// TODO from config
+                break;
+            default:
+                throw  new ErrorHandler(errors_massage.WRONG_TOKEN, errors_code.WRONG_TOKEN);
+        }
+
+        return jwt.sign({}, secretWord, {expiresIn: '24h'});
     }
+
 }

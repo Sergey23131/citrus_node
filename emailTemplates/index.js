@@ -24,6 +24,10 @@ module.exports = {
     [emailActions.DELETE]: {
         templateName: 'delete',
         subject: 'You delete your account'
+    },
+    [emailActions.FORGOT_PASSWORD]: {
+        templateName: 'forgotPassword',
+        subject: 'We will help you!'
     }
 
 }

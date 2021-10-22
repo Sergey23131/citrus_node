@@ -1,8 +1,13 @@
 const {passwordService, jwtService, emailService} = require("../services");
 const O_Auth = require('../database/O_Auth');
 const User = require('../database/User');
+const {FORGOT_PASSWORD} = require("../configs/email.actions");
 const {UPDATE, LOGOUT, DELETE} = require("../configs/email.actions");
 const {errors_code, errors_massage} = require("../errors");
+const {AUTHORIZATION} = require("../configs/constants");
+
+const ActionToken = require('../database/ActionToken');
+
 
 module.exports = {
     logUser: async (req, res, next) => {
@@ -80,5 +85,37 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+    sendMailForgotPassword: async (req, res, next) => {
+        try {
+            const {email} = req.body;
+
+            await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
+
+            res.status(errors_code.UPDATE_DATA).json(req.token);
+        } catch (e) {
+            next(e);
+        }
+    },
+    setNewPassword: async (req, res, next) => {
+        try {
+
+            const actionToken = req.get(AUTHORIZATION).toObject;
+
+            //await jwtService.verifyToken(actionToken);
+
+            const user = await ActionToken.findOne(actionToken);
+
+            await ActionToken.findOneAndDelete(actionToken);
+
+//юзера с паролем не хеш
+            await User.createHashPassword(user);
+
+            await O_Auth.deleteMany({user_id: user.id});
+
+            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
+        } catch (e) {
+            next(e);
+        }
+    },
 };

@@ -5,8 +5,8 @@ const idMiddleware = require('../middlewares/userID.middleware');
 const createMiddleware = require('../middlewares/create.user.middleware');
 const loginMiddleware = require('../middlewares/login.middleware');
 
-const createUserValidator = require('../validators/user.validator');
-const updateUserValidator = require('../validators/user.update.validator');
+const {createUserValidator} = require('../validators/user.validator');
+const {updateUserValidator} = require('../validators/user.update.validator');
 
 const {ADMIN, USER} = require("../configs/user_roles");
 
