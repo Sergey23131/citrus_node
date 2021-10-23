@@ -30,9 +30,9 @@ module.exports = {
         try {
             const {email} = req.body
 
-            await User.createHashPassword(email);
+            await User.createHashPassword(req.body);
 
-            await emailService.sendMail(email, WELCOME, {userName: req.body.name});
+           await emailService.sendMail(email, WELCOME, {userName: req.body.name});
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {

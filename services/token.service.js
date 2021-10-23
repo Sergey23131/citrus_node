@@ -48,7 +48,7 @@ module.exports = {
 
         switch (actionTokenType) {
             case FORGOT_PASSWORD:
-                secretWord = 'Jois';// TODO from config
+                secretWord = JWT_FORGOT_PASSWORD;// TODO from config
                 break;
             default:
                 throw  new ErrorHandler(errors_massage.WRONG_TOKEN, errors_code.WRONG_TOKEN);

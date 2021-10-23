@@ -36,7 +36,9 @@ userSchema.statics = {
     async updateHashPassword(user, password) {
         const hashedPassword = await passwordService.hash(password);
 
-        return this.findByIdAndUpdate({_id: user._id}, {password: hashedPassword}, {new: true});
+        const {_id} = user;
+
+        return this.updateOne({_id: _id}, {password: hashedPassword});
     }
 }
 
