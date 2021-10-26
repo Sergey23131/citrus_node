@@ -92,7 +92,7 @@ module.exports = {
 
             await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
 
-            res.status(errors_code.UPDATE_DATA).json(req.token);
+            res.status(errors_code.UPDATE_DATA).json('Token');
         } catch (e) {
             next(e);
         }
