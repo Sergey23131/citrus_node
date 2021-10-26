@@ -21,7 +21,6 @@ module.exports = {
     verifyToken: async (token, tokenTypes = ACCESS) => {
         try {
             let secret;
-
             switch (tokenTypes) {
                 case ACCESS:
                     secret = JWT_ACCESS_SECRET;

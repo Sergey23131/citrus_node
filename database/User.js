@@ -33,10 +33,11 @@ userSchema.statics = {
         return this.create({...userObject, password: hashedPassword});
     },
 
-    async updateHashPassword(user, password) {
-        const hashedPassword = await passwordService.hash(password);
+    async updateHashPassword(user, newPassword) {
+        const password = await passwordService.hash(newPassword);
 
-        await this.updateOne({_id: user.user_id.id}, {$set: { password }});}
+        await this.updateOne({_id: user.user_id.id}, {$set: { password }});
+    }
 }
 
 module.exports = model('user', userSchema);

@@ -1,5 +1,6 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
+const emailValidator = require('../validators/email.validator');
 
 const {jwtService} = require("../services");
 const {AUTHORIZATION} = require("../configs/constants");
@@ -49,6 +50,12 @@ module.exports = {
     sendMailForgotPassword: async (req, res, next) => {
         try {
             const {email} = req.body;
+
+            const {error, value} = emailValidator.userEmailValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
+            }
 
             const user = await User.findOne({email});
 

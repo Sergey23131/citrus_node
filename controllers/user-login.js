@@ -104,7 +104,7 @@ module.exports = {
 
             const actionToken = req.get(AUTHORIZATION);
 
-          // await jwtService.verifyToken(actionToken);
+            await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
 
             const user = await ActionToken.findOne({token: actionToken});
 
