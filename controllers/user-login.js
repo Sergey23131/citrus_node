@@ -100,17 +100,17 @@ module.exports = {
     setNewPassword: async (req, res, next) => {
         try {
 
-            const {newPassword} = req.body;
+            const {password} = req.body;
 
             const actionToken = req.get(AUTHORIZATION);
 
             await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
 
             const user = await ActionToken.findOne({token: actionToken});
-
+            console.log(user)
             await ActionToken.findOneAndDelete(actionToken);
 
-            await User.updateHashPassword(user, newPassword);
+            await User.updateOne({_id: user.user_id.id}, {$set: { password }});
 
             await O_Auth.deleteMany({user_id: user.id});
 
