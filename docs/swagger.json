@@ -1,0 +1,93 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "June-2021",
+    "description": "Swagger_lesson",
+    "contact": {
+      "email": "asd@gamil.com",
+      "name": "Serhii"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "getAllUsers",
+        "description": "This is how to create user",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "formData",
+            "default": "Dimas",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "default": "example@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "default": "Password!1",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "123qwe",
+          "description": "MongoDB ID"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "example": "Dimas"
+        }
+      }
+    },
+    "commonError": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "Somthing went wrong"
+        },
+        "code": {
+          "type": "number",
+          "example": 400
+        }
+      }
+    }
+  }
+}

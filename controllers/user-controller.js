@@ -1,5 +1,6 @@
 const User = require('../database/User');
 const {passwordService, jwtService, emailService} = require("../services");
+const userService=require('../services/user.service');
 
 const O_Auth = require('../database/O_Auth');
 const {WELCOME, UPDATE} = require('../configs/email.actions');
@@ -8,7 +9,7 @@ const {errors_code, errors_massage} = require('../errors');
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const allUsers = await User.find().select('-password');
+            const allUsers = userService.getAllUsers(req.query);
 
             res.json(allUsers);
         } catch (e) {
@@ -32,7 +33,7 @@ module.exports = {
 
             await User.createHashPassword(req.body);
 
-           await emailService.sendMail(email, WELCOME, {userName: req.body.name});
+            await emailService.sendMail(email, WELCOME, {userName: req.body.name});
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {
