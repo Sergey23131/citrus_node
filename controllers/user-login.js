@@ -107,10 +107,10 @@ module.exports = {
             await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
 
             const user = await ActionToken.findOne({token: actionToken});
-            console.log(user)
+
             await ActionToken.findOneAndDelete(actionToken);
 
-            await User.updateOne({_id: user.user_id.id}, {$set: { password }});
+            await User.updateHashPassword(user, password);
 
             await O_Auth.deleteMany({user_id: user.id});
 
