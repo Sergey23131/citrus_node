@@ -33,10 +33,10 @@ userSchema.statics = {
         return this.create({...userObject, password: hashedPassword});
     },
 
-    async updateHashPassword(user, password) {
-        const hashedPassword = await passwordService.hash(password);
+    async updateHashPassword(user, newPassword) {
+        const password = await passwordService.hash(newPassword);
 
-        return this.updateOne({_id: user._id}, {password: hashedPassword});
+        await this.updateOne({_id: user.user_id.id}, {$set: { password }});
     }
 }
 

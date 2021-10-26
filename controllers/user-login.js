@@ -110,7 +110,7 @@ module.exports = {
 
             await ActionToken.findOneAndDelete(actionToken);
 
-            await User.updateHashPassword(user, newPassword);
+            await User.updateHashPassword(user, password);
 
             await O_Auth.deleteMany({user_id: user.id});
 
