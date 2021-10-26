@@ -92,7 +92,7 @@ module.exports = {
 
             await emailService.sendMail(email, FORGOT_PASSWORD, {forgotPasswordUrl: `http://loclalhost:5000/auth/password/forgot/set?token=${req.token}`});
 
-            res.status(errors_code.UPDATE_DATA).json(req.token);
+            res.status(errors_code.UPDATE_DATA).json('Token');
         } catch (e) {
             next(e);
         }
@@ -100,11 +100,11 @@ module.exports = {
     setNewPassword: async (req, res, next) => {
         try {
 
-            const {newPassword} = req.body;
+            const {password} = req.body;
 
             const actionToken = req.get(AUTHORIZATION);
 
-          // await jwtService.verifyToken(actionToken);
+            await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
 
             const user = await ActionToken.findOne({token: actionToken});
 
