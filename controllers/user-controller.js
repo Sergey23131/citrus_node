@@ -1,6 +1,6 @@
 const User = require('../database/User');
-const {passwordService, jwtService, emailService} = require("../services");
-const userService=require('../services/user.service');
+const {jwtService, emailService} = require("../services");
+const {userService} = require('../services');
 
 const O_Auth = require('../database/O_Auth');
 const {WELCOME, UPDATE} = require('../configs/email.actions');
@@ -9,7 +9,7 @@ const {errors_code, errors_massage} = require('../errors');
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const allUsers = userService.getAllUsers(req.query);
+            const allUsers = await userService.getAllUsers(req.query);
 
             res.json(allUsers);
         } catch (e) {

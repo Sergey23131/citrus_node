@@ -4,7 +4,7 @@ const User = require('../database/User');
 const {FORGOT_PASSWORD} = require("../configs/email.actions");
 const {UPDATE, LOGOUT, DELETE} = require("../configs/email.actions");
 const {errors_code, errors_massage} = require("../errors");
-const {AUTHORIZATION} = require("../configs/constants");
+
 
 const ActionToken = require('../database/ActionToken');
 
@@ -99,20 +99,7 @@ module.exports = {
     },
     setNewPassword: async (req, res, next) => {
         try {
-
-            const {password} = req.body;
-
-            const actionToken = req.get(AUTHORIZATION);
-
-            await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
-
-            const user = await ActionToken.findOne({token: actionToken});
-
-            await ActionToken.findOneAndDelete(actionToken);
-
-            await User.updateHashPassword(user, password);
-
-            await O_Auth.deleteMany({user_id: user.id});
+            //realisation of sendMail
 
             res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
         } catch (e) {

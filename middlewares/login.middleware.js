@@ -1,6 +1,7 @@
 const User = require('../database/User');
 const loginValidator = require('../validators/login.validator');
 const emailValidator = require('../validators/email.validator');
+const passwordValidator = require('../validators/password.validator');
 
 const {jwtService} = require("../services");
 const {AUTHORIZATION} = require("../configs/constants");
@@ -132,5 +133,36 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    setNewPasswordMiddleware: async (req, res, next) => {
+        try {
+            const {password} = req.body;
+
+            const {error, value} = passwordValidator.userEmailValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errors_massage.NOT_VALID_BODY, errors_code.NOT_VALID);
+            }
+            const actionToken = req.get(AUTHORIZATION);
+
+            if (!actionToken) {
+                throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
+            }
+
+            await jwtService.verifyToken(actionToken, FORGOT_PASSWORD);
+
+            const user = await ActionToken.findOne({token: actionToken});
+
+            await ActionToken.findOneAndDelete(actionToken);
+
+            await User.updateHashPassword(user, password);
+
+            await O_Auth.deleteMany({user_id: user.id});
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 }

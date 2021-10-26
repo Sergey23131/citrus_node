@@ -12,6 +12,6 @@ authRouter.post('/refresh', loginMiddleware.checkRefreshToken, authController.re
 authRouter.delete('/logout', loginMiddleware.checkAccessToken, authController.logOut);
 
 authRouter.post('/password/forgot', loginMiddleware.sendMailForgotPassword, authController.sendMailForgotPassword);
-authRouter.post('/password/forgot/set', authController.setNewPassword);
+authRouter.post('/password/forgot/set', loginMiddleware.setNewPasswordMiddleware, authController.setNewPassword);
 
 module.exports = authRouter;

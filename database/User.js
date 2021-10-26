@@ -1,6 +1,6 @@
 const userRoles = require('../configs/user_roles');
 const {Schema, model} = require('mongoose');
-const {passwordService} = require('../services');
+const passwordService = require('../services/password.service');
 
 const userSchema = new Schema({
     name: {

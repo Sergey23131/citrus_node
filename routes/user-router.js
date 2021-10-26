@@ -8,12 +8,9 @@ const loginMiddleware = require('../middlewares/login.middleware');
 const {createUserValidator} = require('../validators/user.validator');
 const {updateUserValidator} = require('../validators/user.update.validator');
 
-const {ADMIN, USER} = require("../configs/user_roles");
-
-const {userController} = require('../controllers/index');
+const {userController} = require('../controllers');
 
 router.post('/',
-    //checkUserRole([USER, ADMIN]),
     isUserBodyValid(createUserValidator),
     createMiddleware.createUserMiddleware,
     userController.createUser);
