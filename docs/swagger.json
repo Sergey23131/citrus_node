@@ -11,11 +11,78 @@
   },
   "paths": {
     "/users": {
-      "post": {
+      "get": {
         "tags": [
           "Users"
         ],
         "operationId": "getAllUsers",
+        "description": "When you get all users",
+        "parameters": [
+          {
+            "name": "perPage",
+            "type": "number",
+            "in": "query",
+            "default": "20",
+            "required": false
+          },
+          {
+            "name": "page",
+            "type": "number",
+            "in": "query",
+            "default": "1",
+            "required": false
+          },
+          {
+            "name": "sortBy",
+            "type": "string",
+            "in": "query",
+            "default": "createdAt",
+            "required": false
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "in": "query",
+            "default": "Qwerty",
+            "required": false
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "in": "query",
+            "enum": [
+              "admin",
+              "user",
+              "manager"
+            ],
+            "default": "user",
+            "required": false
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "query",
+            "default": "qwerty@gmail.com",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "create",
         "description": "This is how to create user",
         "parameters": [
           {
@@ -38,6 +105,18 @@
             "default": "Password!1",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "in": "query",
+            "enum": [
+              "admin",
+              "user",
+              "manager"
+            ],
+            "default": "user",
+            "required": false
           }
         ],
         "responses": {
@@ -47,11 +126,299 @@
               "$ref": "#/definitions/singleUser"
             }
           },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/users/:user_id": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "getUserByID",
+        "description": "When you get one user by id",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "in": "query",
+            "default": "Qwerty",
+            "required": false
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "in": "query",
+            "enum": [
+              "admin",
+              "user",
+              "manager"
+            ],
+            "default": "user",
+            "required": false
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "query",
+            "default": "qwerty@gmail.com",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201"
+          },
           "400": {
-            "description": "Just an error",
-            "schema": {
-              "$ref": "#/definitions/commonError"
-            }
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "updateUserName",
+        "description": "When you want to update user name",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "in": "query",
+            "default": "Qwerty",
+            "required": false
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "query",
+            "default": "qwerty@gmail.com",
+            "required": false
+          },
+          {
+            "name": "password",
+            "type": "string",
+            "in": "query",
+            "default": "ExamplePassword23!",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "Login",
+        "description": "authorization of user",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "qwerty@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "somePassword",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "DeleteAccount",
+        "description": "Delete user",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "qwerty@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "somePassword2",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "204": {
+            "$ref": "#/responses/204"
+          }
+        }
+      }
+    },
+    "/auth/refesh": {
+      "post": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "DeleteAccount",
+        "description": "Delete user",
+        "responses": {
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "201": {
+            "$ref": "#/responses/201"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "delete": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "LogoutFromAccount",
+        "description": "Delete tokens from database",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "qwerty@gmail.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "somePassword3",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          }
+        }
+      }
+    },
+    "/auth/forgot": {
+      "post": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "ForgotPassword3",
+        "description": "Send link on email and generate `action_token`",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "qwerty@gmail.com",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          }
+        }
+      }
+    },
+    "/auth/forgot/set": {
+      "post": {
+        "tags": [
+          "Users Auth"
+        ],
+        "operationId": "UpdatePassword",
+        "description": "Update password of user",
+        "parameters": [
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "somePassword2",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
           }
         }
       }
@@ -66,13 +433,21 @@
           "example": "123qwe",
           "description": "MongoDB ID"
         },
+        "name": {
+          "type": "string",
+          "example": "Dimas"
+        },
         "email": {
           "type": "string",
           "example": "example@gmail.com"
         },
-        "name": {
+        "age": {
+          "type": "number",
+          "example": "20"
+        },
+        "role": {
           "type": "string",
-          "example": "Dimas"
+          "example": "user"
         }
       }
     },
@@ -86,6 +461,95 @@
         "code": {
           "type": "number",
           "example": 400
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "User was created",
+      "schema": {
+        "$ref": "#/definitions/singleUser"
+      }
+    },
+    "201": {
+      "description": "Update database",
+      "schema": {
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Client update info"
+          },
+          "code": {
+            "type": "number",
+            "example": 201
+          }
+        }
+      }
+    },
+    "204": {
+      "description": "Removing account of user",
+      "schema": {
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Access restrictions for the client"
+          },
+          "code": {
+            "type": "number",
+            "example": 204
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Just an error",
+      "schema": {
+        "$ref": "#/definitions/commonError"
+      }
+    },
+    "404": {
+      "description": "Not Found",
+      "schema": {
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "No data"
+          },
+          "code": {
+            "type": "number",
+            "example": 404
+          }
+        }
+      }
+    },
+    "409": {
+      "description": "Is user exist",
+      "schema": {
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "This info was used for another account"
+          },
+          "code": {
+            "type": "number",
+            "example": 409
+          }
+        }
+      }
+    },
+    "500": {
+      "description": "Authorization",
+      "schema": {
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Invalid token"
+          },
+          "code": {
+            "type": "number",
+            "example": "500"
+          }
         }
       }
     }
