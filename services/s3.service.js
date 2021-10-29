@@ -29,5 +29,5 @@ function _filenameBuilder(fileName, itemType, itemId) {
     //const filExtension=fileName.split('.').pop()
     const filExtension = path.extname(fileName);
 
-    return path.join(itemType, itemId, `${uuid()}${filExtension}`)
+    return path.join(itemType, itemId, `${uuid()}${filExtension}`);
 }
