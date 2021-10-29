@@ -36,9 +36,9 @@ module.exports = {
             const {avatar} = req.files;
 
             if (avatar) {
-                await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
+               let uploadInfo = await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
 
-                newUser = User.findByIdAndUpdate(newUser._id, {avatar: 'URL'});
+                newUser = User.findByIdAndUpdate(newUser._id, {avatar: uploadInfo.Location});
             }
 
             await emailService.sendMail(email, WELCOME, {userName: req.body.name});
