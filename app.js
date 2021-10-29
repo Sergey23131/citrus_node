@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const swaggerUI = require('swagger-ui-express');
+const fileUpload=require('express-fileupload');
 
 
 const {ErrorHandler} = require("./errors");
@@ -32,6 +33,7 @@ if (NODE_ENV === 'dev') {
 
 const {userRouter, authRouter} = require('./routes');
 
+app.use(fileUpload({}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 

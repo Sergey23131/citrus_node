@@ -8,5 +8,7 @@ module.exports = {
     ACCESS: 'Access denied',
     INVALID_ACTION: 'Invalid action',
     FORGOT_PASSWORD: 'User not found',
-    WRONG_TOKEN: 'Wrong token type'
+    WRONG_TOKEN: 'Wrong token type',
+    MAX_SIZE:'File is too big',
+    WRONG_FORMAT:'Your format is not supported'
 };

@@ -1,5 +1,5 @@
 const User = require('../database/User');
-const {jwtService, emailService} = require("../services");
+const {jwtService, emailService, s3Service} = require("../services");
 const {userService} = require('../services');
 
 const O_Auth = require('../database/O_Auth');
@@ -31,7 +31,15 @@ module.exports = {
         try {
             const {email} = req.body
 
-            await User.createHashPassword(req.body);
+            let newUser = await User.createHashPassword(req.body);
+
+            const {avatar} = req.files;
+
+            if (avatar) {
+                await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
+
+                newUser = User.findByIdAndUpdate(newUser._id, {avatar: 'URL'});
+            }
 
             await emailService.sendMail(email, WELCOME, {userName: req.body.name});
 
