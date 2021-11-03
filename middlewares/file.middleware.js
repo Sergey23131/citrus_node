@@ -4,7 +4,7 @@ const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 module.exports = {
     checkUserAvatar: (req, res, next) => {
         try {
-            const {avatar} = req.files;
+            const {avatar} = req.files || {};
 
             if (!avatar) {
                 next();
