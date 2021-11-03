@@ -33,7 +33,7 @@ module.exports = {
 
             let newUser = await User.createHashPassword(req.body);
 
-            const {avatar} = req.files;
+            const {avatar} = req.files || {};
 
             if (avatar) {
                 const uploadInfo = await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
