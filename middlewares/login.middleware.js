@@ -3,15 +3,15 @@ const loginValidator = require('../validators/login.validator');
 const emailValidator = require('../validators/email.validator');
 const passwordValidator = require('../validators/password.validator');
 
-const {jwtService} = require("../services");
-const {AUTHORIZATION} = require("../configs/constants");
+const {jwtService} = require('../services');
+const {AUTHORIZATION} = require('../configs/constants');
 const tokenType = require('../configs/token.type.enum');
 const O_Auth = require('../database/O_Auth');
-const {FORGOT_PASSWORD} = require("../configs/action-token-type");
+const {FORGOT_PASSWORD} = require('../configs/action-token-type');
 
 const ActionToken = require('../database/ActionToken');
 
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 module.exports = {
     createLoginMiddleware: async (req, res, next) => {
@@ -70,11 +70,11 @@ module.exports = {
                 token: actionToken,
                 token_type: FORGOT_PASSWORD,
                 user_id: user._id
-            })
+            });
 
             req.token = actionToken;
 
-            next()
+            next();
         } catch (e) {
             next(e);
         }
@@ -98,7 +98,7 @@ module.exports = {
                 throw new ErrorHandler(errors_massage.NOT_VALID_TOKEN, errors_code.NOT_VALID);
             }
 
-            req.user = tokenResponse.user_id
+            req.user = tokenResponse.user_id;
             req.token = token;
 
             next();
@@ -165,4 +165,4 @@ module.exports = {
             next(e);
         }
     },
-}
+};

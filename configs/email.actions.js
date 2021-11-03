@@ -6,4 +6,4 @@ module.exports = {
     LOGOUT:'logout',
     DELETE:'delete',
     FORGOT_PASSWORD:'forgotPassword'
-}
+};

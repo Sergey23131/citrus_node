@@ -41,6 +41,6 @@ userSchema.statics = {
 
         await this.updateOne({_id: user.user_id.id}, {$set: { password }});
     }
-}
+};
 
 module.exports = model('user', userSchema);

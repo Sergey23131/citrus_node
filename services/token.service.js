@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
 
-const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_FORGOT_PASSWORD} = require('../configs/config')
-const tokenType = require('../configs/token.type.enum');
-const {ACCESS} = require("../configs/token.type.enum");
-const {REFRESH} = require("../configs/token.type.enum");
-const {FORGOT_PASSWORD} = require("../configs/action-token-type");
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_FORGOT_PASSWORD} = require('../configs/config');
+const {ACCESS} = require('../configs/token.type.enum');
+const {REFRESH} = require('../configs/token.type.enum');
+const {FORGOT_PASSWORD} = require('../configs/action-token-type');
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 module.exports = {
     generateTokenPair: () => {
@@ -15,7 +14,7 @@ module.exports = {
         return {
             access_token,
             refresh_token
-        }
+        };
     },
 
     verifyToken: async (token, tokenTypes = ACCESS) => {
@@ -51,10 +50,10 @@ module.exports = {
                 secretWord = JWT_FORGOT_PASSWORD;// TODO from config
                 break;
             default:
-                throw  new ErrorHandler(errors_massage.WRONG_TOKEN, errors_code.WRONG_TOKEN);
+                throw new ErrorHandler(errors_massage.WRONG_TOKEN, errors_code.WRONG_TOKEN);
         }
 
         return jwt.sign({}, secretWord, {expiresIn: '24h'});
     }
 
-}
+};

@@ -11,7 +11,7 @@ module.exports = {
                 return;
             }
 
-            const {name, size, mimetype} = avatar;
+            const {size, mimetype} = avatar;
 
             if (!PHOTOS_MIMETYPES.includes(mimetype)) {
                 throw new ErrorHandler(errors_massage.WRONG_FORMAT, errors_code.NOT_VALID);

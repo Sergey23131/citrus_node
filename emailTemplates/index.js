@@ -30,4 +30,4 @@ module.exports = {
         subject: 'We will help you!'
     }
 
-}
+};

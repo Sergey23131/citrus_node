@@ -7,4 +7,4 @@ module.exports = {
     ACTION: 404,
     EXIST: 409,
     WRONG_TOKEN: 500
-}
+};

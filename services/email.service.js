@@ -1,16 +1,16 @@
 const nodemailer = require('nodemailer');
 const EmailTemplates = require('email-templates');
-const path = require('path')
+const path = require('path');
 
 const {NO_REPLY_EMAIL_PASSWORD, NO_REPLY_EMAIL} = require('../configs/config');
 const allTemplates = require('../emailTemplates');
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 const templateParser = new EmailTemplates({
     views: {
         root: path.join(process.cwd(), 'emailTemplates')
     }
-})
+});
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -38,9 +38,9 @@ const sendMail = async (userMail, emailAction, context = {}) => {
         to: userMail,
         subject: templateInfo.subject,
         html
-    })
-}
+    });
+};
 
 module.exports = {
     sendMail
-}
+};

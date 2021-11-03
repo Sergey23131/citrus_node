@@ -8,7 +8,7 @@ const swaggerUI = require('swagger-ui-express');
 const fileUpload=require('express-fileupload');
 
 
-const {ErrorHandler} = require("./errors");
+const {ErrorHandler} = require('./errors');
 const {MONGO_CONNECT_URL, PORT, ALLOWED_ORIGIN, NODE_ENV} = require('./configs/config');
 const startCron = require('./cron');
 const checkDefaultData = require('./util/defoult-data.util');
@@ -52,7 +52,7 @@ app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
     checkDefaultData();
     startCron();
-})
+});
 
 function _configureCors(origin, callback) {
 

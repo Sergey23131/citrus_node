@@ -1,10 +1,10 @@
 const User = require('../database/User');
-const {jwtService, emailService, s3Service} = require("../services");
+const {jwtService, emailService, s3Service} = require('../services');
 const {userService} = require('../services');
 
 const O_Auth = require('../database/O_Auth');
 const {WELCOME, UPDATE} = require('../configs/email.actions');
-const {errors_code, errors_massage} = require('../errors');
+const {errors_code} = require('../errors');
 
 module.exports = {
     getUsers: async (req, res, next) => {
@@ -18,7 +18,7 @@ module.exports = {
 
     },
 
-    getUsersByID: async (req, res, next) => {
+    getUsersByID: (req, res, next) => {
         try {
 
             res.json(req.user);
@@ -29,21 +29,21 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const {email} = req.body
+            const {email} = req.body;
 
             let newUser = await User.createHashPassword(req.body);
 
             const {avatar} = req.files;
 
             if (avatar) {
-               let uploadInfo = await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
+                const uploadInfo = await s3Service.uploadImage(avatar, 'users', newUser._id.toString());
 
-                newUser = User.findByIdAndUpdate(newUser._id, {avatar: uploadInfo.Location});
+                newUser = await User.findByIdAndUpdate(newUser._id, {avatar: uploadInfo.Location}, {new: true});
             }
 
             await emailService.sendMail(email, WELCOME, {userName: req.body.name});
 
-            res.status(errors_code.UPDATE_DATA).json(errors_massage.UPDATE_DATA);
+            res.status(errors_code.UPDATE_DATA).json(newUser);
         } catch (e) {
             next(e);
         }
@@ -53,7 +53,7 @@ module.exports = {
         try {
             const {user_id} = req.params;
 
-            console.log(user_id)
+            console.log(user_id);
 
             await User.findByIdAndUpdate(user_id, req.body);
 
@@ -62,7 +62,7 @@ module.exports = {
             await O_Auth.create({
                 ...tokenPair,
                 user_id: req.user._id
-            })
+            });
 
             const oneUser = await User.findById(req.user.id).select('-password');
 
@@ -71,11 +71,11 @@ module.exports = {
             res.json({
                 user: oneUser,
                 ...tokenPair
-            })
+            });
 
         } catch (e) {
             next(e);
         }
     },
 
-}
+};

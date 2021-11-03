@@ -8,7 +8,7 @@ module.exports = {
             sortBy = 'createdAt',
             order = 'asc',
             ...filters
-        } = query
+        } = query;
 
         const findObject = {};
         const ageFilter = {};
@@ -16,13 +16,13 @@ module.exports = {
         Object.keys(filters).forEach((filterParams) => {
             switch (filterParams) {
                 case 'name':
-                    findObject.name = {$regex: `^${filters.name}`, $options: 'i'}
+                    findObject.name = {$regex: `^${filters.name}`, $options: 'i'};
                     break;
                 case 'age.gte':
-                    Object.assign(ageFilter, {$gte: +filters['age.gte']})
+                    Object.assign(ageFilter, {$gte: +filters['age.gte']});
                     break;
                 case 'age.lte':
-                    Object.assign(ageFilter, {$lte: +filters['age.gte']})
+                    Object.assign(ageFilter, {$lte: +filters['age.gte']});
                     break;
 
             }
@@ -40,4 +40,4 @@ module.exports = {
             .limit(+perPage)
             .skip((page - 1) * perPage);
     }
-}
+};

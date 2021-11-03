@@ -1,4 +1,4 @@
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 module.exports = {
     isUserBodyValid: (validation) => (req, res, next) => {
@@ -31,4 +31,4 @@ module.exports = {
             next(e);
         }
     }
-}
+};

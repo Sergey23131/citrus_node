@@ -21,7 +21,7 @@ const actionTokenSchema = new Schema({
     },
 }, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}});
 
-actionTokenSchema.pre('findOne', function () {
+actionTokenSchema.pre('findOne', function() {
     this.populate('user_id');
 });
 

@@ -20,7 +20,8 @@ module.exports = {
             Bucket: AWS_S3_NAME,
             Body: data,
             Key: uploadPass,
-            ContentType: mimetype
+            ContentType: mimetype,
+            ACL:'public-read'
         }).promise();
     }
 };

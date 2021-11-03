@@ -1,6 +1,6 @@
 const User = require('../database/User');
 
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 
 module.exports = {
@@ -20,4 +20,4 @@ module.exports = {
             next(e);
         }
     }
-}
+};

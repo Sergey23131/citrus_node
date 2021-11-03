@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const {isUserBodyValid, checkUserRole} = require('../middlewares/user.middleware');
+const {isUserBodyValid} = require('../middlewares/user.middleware');
 const idMiddleware = require('../middlewares/userID.middleware');
 const createMiddleware = require('../middlewares/create.user.middleware');
 const loginMiddleware = require('../middlewares/login.middleware');

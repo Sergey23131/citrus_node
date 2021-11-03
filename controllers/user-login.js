@@ -1,13 +1,9 @@
-const {passwordService, jwtService, emailService} = require("../services");
+const {passwordService, jwtService, emailService} = require('../services');
 const O_Auth = require('../database/O_Auth');
 const User = require('../database/User');
-const {FORGOT_PASSWORD} = require("../configs/email.actions");
-const {UPDATE, LOGOUT, DELETE} = require("../configs/email.actions");
-const {errors_code, errors_massage} = require("../errors");
-
-
-const ActionToken = require('../database/ActionToken');
-
+const {FORGOT_PASSWORD} = require('../configs/email.actions');
+const {UPDATE, LOGOUT, DELETE} = require('../configs/email.actions');
+const {errors_code, errors_massage} = require('../errors');
 
 module.exports = {
     logUser: async (req, res, next) => {
@@ -22,7 +18,7 @@ module.exports = {
             await O_Auth.create({
                 ...tokenPair,
                 user_id: req.user._id
-            })
+            });
 
             const oneUser = await User.findById(req.user.id).select('-password');
 
@@ -31,7 +27,7 @@ module.exports = {
             res.json({
                 user: oneUser,
                 ...tokenPair
-            })
+            });
 
         } catch (e) {
             next(e);
@@ -42,7 +38,7 @@ module.exports = {
         try {
             const user = req.user;
 
-            await O_Auth.findOneAndDelete(req.token)
+            await O_Auth.findOneAndDelete(req.token);
 
             await emailService.sendMail(user.email, LOGOUT, {userName: user.name});
 
@@ -60,12 +56,12 @@ module.exports = {
             await O_Auth.create({
                 ...tokenPair,
                 user_id: req.user._id
-            })
+            });
 
             res.json({
                 user: req.user,
                 ...tokenPair
-            })
+            });
 
         } catch (e) {
             next(e);
@@ -77,7 +73,7 @@ module.exports = {
             const user = req.user;
 
             await User.findByIdAndDelete(req.user.id).select('-password');
-            await O_Auth.findOneAndDelete(req.token)
+            await O_Auth.findOneAndDelete(req.token);
 
             await emailService.sendMail(user.email, DELETE, {userName: user.name});
 
@@ -97,7 +93,7 @@ module.exports = {
             next(e);
         }
     },
-    setNewPassword: async (req, res, next) => {
+    setNewPassword:(req, res, next) => {
         try {
             //realisation of sendMail
 

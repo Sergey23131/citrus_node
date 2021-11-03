@@ -1,12 +1,12 @@
 const User = require('../database/User');
 
-const {ErrorHandler, errors_massage, errors_code} = require("../errors");
+const {ErrorHandler, errors_massage, errors_code} = require('../errors');
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
         try {
 
-            const {email} = req.body
+            const {email} = req.body;
 
             const loginInfo = await User.findOne({email});
 
@@ -19,4 +19,4 @@ module.exports = {
             next(e);
         }
     }
-}
+};
